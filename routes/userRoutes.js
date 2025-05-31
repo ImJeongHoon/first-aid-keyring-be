@@ -14,3 +14,4 @@ router.put("/profile", authMiddleware, updateProfile);
 router.get("/:email", getPublicProfile); // 누구나 조회 가능
 
 module.exports = router;
+// ..
