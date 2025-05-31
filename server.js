@@ -1,5 +1,3 @@
-// 뭔가 안되나 봅니다.
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -11,7 +9,7 @@ dotenv.config();
 const allowedOrigins = [
   "http://localhost:3000",
   "https://first-aid-keyring.vercel.app",
-  "https://firstaid-api.onrender.com/api",
+  "https://firstaid-api.onrender.com",
 ];
 
 const corsOptions = {
@@ -19,7 +17,7 @@ const corsOptions = {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      console.log("❌ CORS 차단:", origin);
+      console.log("❌ 차단된 origin:", origin);
       callback(new Error("Not allowed by CORS"));
     }
   },
@@ -30,10 +28,9 @@ const corsOptions = {
 
 const app = express();
 
-// ✅ 반드시 최상단에 위치
+// ✅ 반드시 가장 먼저 등록
 app.use(cors(corsOptions));
-
-// ✅ 모든 preflight OPTIONS 요청 허용
+// ✅ preflight 요청 전용 핸들러 추가
 app.options("*", cors(corsOptions));
 
 app.use(express.json());
