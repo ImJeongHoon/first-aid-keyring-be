@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
-const emergencyContactSchema = new mongoose.Schema(
-  {
-    name: String,
-    phone: String,
-    note: String,
-  },
-  { _id: false }
-);
+// const emergencyContactSchema = new mongoose.Schema(
+//   {
+//     name: String,
+//     phone: String,
+//     note: String,
+//   },
+//   { _id: false }
+// );
 
 const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
