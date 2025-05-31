@@ -9,7 +9,7 @@ dotenv.config();
 const allowedOrigins = [
   "http://localhost:3000",
   "https://first-aid-keyring.vercel.app",
-  "https://firstaid-api.onrender.com",
+  "https://firstaid-api.onrender.com/api",
 ];
 
 const corsOptions = {
