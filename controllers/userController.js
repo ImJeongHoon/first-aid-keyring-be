@@ -64,30 +64,28 @@ exports.updateProfile = async (req, res) => {
 
 exports.getPublicProfile = async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.params.email }).select(
-      "-password -_id -__v"
-    );
+    const { email } = req.params;
 
-    if (!user) return res.status(404).json({ message: "User not found" });
-
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: "Failed to fetch profile" });
-  }
-};
-exports.getPublicProfile = async (req, res) => {
-  try {
-    const { username } = req.params;
-
-    const user = await User.findOne({ username }).select("-password -__v -_id"); // 민감 정보 제외
+    const user = await User.findOne({ email }).select("-password -__v -_id");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     res.json(user);
-  } catch (err) {
-    console.error("🔥 공개 프로필 조회 실패:", err);
+  } catch (error) {
     res.status(500).json({ message: "Server error" });
+  }
+};
+exports.getMyProfile = async (req, res) => {
+  try {
+    const user = await User.findOne({ email: req.user.email }).select(
+      "-password"
+    );
+    if (!user)
+      return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: "서버 오류" });
   }
 };
