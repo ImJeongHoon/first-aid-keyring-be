@@ -8,23 +8,32 @@ dotenv.config();
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://first-aid-keyring.vercel.app", // ✅ 이미 있음 (좋음)
-  "https://firstaid-api.onrender.com", // ✅ 자기 자신도 명시적으로 넣는 것이 안정적
+  "https://first-aid-keyring.vercel.app",
+  "https://firstaid-api.onrender.com/api",
 ];
 
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log("❌ CORS 차단:", origin);
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
 const app = express();
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true,
-  })
-);
+
+// ✅ 반드시 최상단에 위치
+app.use(cors(corsOptions));
+
+// ✅ 모든 preflight OPTIONS 요청 허용
+app.options("*", cors(corsOptions));
+
 app.use(express.json());
 
 app.use((req, res, next) => {
