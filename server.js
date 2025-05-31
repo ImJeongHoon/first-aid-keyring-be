@@ -8,13 +8,20 @@ dotenv.config();
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://first-aid-keyring.vercel.app",
+  "https://first-aid-keyring.vercel.app", // ✅ 이미 있음 (좋음)
+  "https://firstaid-api.onrender.com", // ✅ 자기 자신도 명시적으로 넣는 것이 안정적
 ];
 
 const app = express();
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );
