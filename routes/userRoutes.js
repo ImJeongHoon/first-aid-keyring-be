@@ -16,3 +16,4 @@ router.put("/profile", authMiddleware, updateProfile);
 router.get("/profile", authMiddleware, getMyProfile); // ✅ 이거 추가
 
 module.exports = router;
+//
