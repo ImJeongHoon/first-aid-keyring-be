@@ -29,6 +29,8 @@ const corsOptions = {
 
 const app = express();
 
+app.set("trust proxy", true);
+
 // ✅ CORS: 반드시 가장 먼저 선언
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions)); // Preflight 대응
